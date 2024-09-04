@@ -1,44 +1,45 @@
-#include <winsock2.h>
-#include <ws2tcpip.h>
 #include <iostream>
-
-#pragma comment(lib, "Ws2_32.lib")
-
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 
 int main() {
+    int sockfd;
+    struct sockaddr_in servaddr;
+    const char *sendbuf = "this is a test";
 
-    WSADATA wsaData;
-    int iResult;
-
-    // אתחול WinSock
-    iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (iResult != 0) {
-        std::cerr << "WSAStartup failed: " << iResult << std::endl;
-        return 1;
-    }
-    return 3;
     // יצירת Socket
-    SOCKET ConnectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (ConnectSocket == INVALID_SOCKET) {
-        std::cerr << "Error at socket(): " << WSAGetLastError() << std::endl;
-        WSACleanup();
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0) {
+        std::cerr << "Error at socket(): " << strerror(errno) << std::endl;
         return 1;
     }
 
     // הגדרת כתובת השרת והתחברות
-    struct sockaddr_in clientService;
-    clientService.sin_family = AF_INET;
-    clientService.sin_port = htons(27015);
-    inet_pton(AF_INET, "127.0.0.1", &clientService.sin_addr);
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(27015);
+    if (inet_pton(AF_INET, "127.0.0.1", &servaddr.sin_addr) <= 0) {
+        std::cerr << "Invalid address/ Address not supported" << std::endl;
+        close(sockfd);
+        return 1;
+    }
 
-    iResult = connect(ConnectSocket, (sockaddr *)&clientService, sizeof(clientService));
-    if (iResult == SOCKET_ERROR) {
-        std::cerr << "Unable to connect to server: " << WSAGetLastError() << std::endl;
-        closesocket(ConnectSocket);
-        WSACleanup();
+    if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
+        std::cerr << "Connection failed: " << strerror(errno) << std::endl;
+        close(sockfd);
         return 1;
     }
 
     // שליחת נתונים
-    const char *sendbuf = "this is a test";
+    if (send(sockfd, sendbuf, strlen(sendbuf), 0) < 0) {
+        std::cerr << "Send failed: " << strerror(errno) << std::endl;
+        close(sockfd);
+        return 1;
     }
+
+    // סגירת ה-Socket
+    close(sockfd);
+
+    return 0;
+}
