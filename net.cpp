@@ -11,6 +11,7 @@ using namespace std;
 
 
 int main() {
+    
     //Server syntax
 
     // socket
@@ -20,8 +21,6 @@ int main() {
     sockaddr_in serverAddress;
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(8080);
-    cout << serverAddress.sin_port;
-    return 0;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
 
     //binding
