@@ -16,7 +16,7 @@ int main() {
     sockaddr_in serverAddress;
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(8080);
-    serverAddress.sin_addr.s_addr = INNARRD_ANY;
+    serverAddress.sin_addr.s_addr = INNADDR_ANY;
 
 
     bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress));
