@@ -23,7 +23,7 @@ int main() {
 
     listen(serverSocket, 5);
 
-    int clientSocket = accept(serverSocket, nullptr, nullptr);
+    int clientSocket = accept(serverSocket, NULL, NULL);
 
     // const char* msg = "Hi dear client!";
 
