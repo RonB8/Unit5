@@ -16,7 +16,7 @@ int main() {
     sockaddr_in serverAddress;
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(8080);
-    serverAddress.sin_addr.s_addr = INNADDR_ANY;
+    serverAddress.sin_addr.s_addr = INADDR_ANY;
 
 
     bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress));
@@ -32,6 +32,7 @@ int main() {
     cout << "msg from client is: " << buffer << endl;
 
     close(serverSocket);
+    close(clientSocket);
 
     return 0;
 }
