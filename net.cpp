@@ -21,7 +21,7 @@ int main() {
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(8080);
     cout << serverAddress.sin_port;
-    exit(0);
+    return 0;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
 
     //binding
