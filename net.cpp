@@ -5,13 +5,14 @@
 #include <unistd.h>
 #include <cerrno>
 #include <cstring> 
+#include <boost>
 
 
 using namespace std;
 
 
 int main() {
-    
+
     //Server syntax
 
     // socket
