@@ -12,6 +12,8 @@ using namespace std;
 
 int main() {
 
+    std::cout << "Good tzaharayim\n";
+
     int sockfd;
     struct sockaddr_in servaddr;
     const char *sendbuf = "this is a test";
