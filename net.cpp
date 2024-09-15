@@ -13,7 +13,7 @@ using namespace std;
 
 int main() {
 
-    //Server syntax
+    //Server syntax!
 
     // socket
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
